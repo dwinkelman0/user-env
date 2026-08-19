@@ -7,6 +7,7 @@ cwd="$(pwd)"
 declare -A SYMLINKS=(
     ["$HOME/.vimrc"]=".vimrc"
     ["$HOME/.tmux.conf"]=".tmux.conf"
+    ["$HOME/.zshrc"]=".zshrc"
 )
 
 git pull origin main
