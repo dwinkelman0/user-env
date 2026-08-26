@@ -1,9 +1,17 @@
-set -euxo pipefail
+#!/bin/bash
+set -euo pipefail
 
-cd "$(dirname "$0")"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# Re-exec under a modern bash if the current one is too old
+if [[ "${BASH_VERSION%%.*}" -lt 4 ]]; then
+    BASH="$("$SCRIPT_DIR/src/find-bash.sh")"
+    exec "$BASH" "$0" "$@"
+fi
+
+cd "$SCRIPT_DIR"
 cwd="$(pwd)"
 
-# Associative array: destination -> source (relative to repo)
 declare -A SYMLINKS=(
     ["$HOME/.vimrc"]="files/home/.vimrc"
     ["$HOME/.tmux.conf"]="files/home/.tmux.conf"
