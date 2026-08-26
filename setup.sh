@@ -27,6 +27,10 @@ declare -A SYMLINKS=(
     ["$HOME/.vimrc"]="files/home/.vimrc"
     ["$HOME/.tmux.conf"]="files/home/.tmux.conf"
     ["$HOME/.zshrc"]="files/home/.zshrc"
+    ["$HOME/.config/opencode/AGENTS.md"]="files/home/.config/opencode/AGENTS.md"
+    ["$HOME/.config/opencode/opencode.json"]="files/home/.config/opencode/opencode.json"
+    ["$HOME/.config/opencode/skills/bash/SKILL.md"]="files/home/.config/opencode/skills/bash/SKILL.md"
+    ["$HOME/.config/opencode/plugins/config-approval"]="src/plugins/config-approval"
 )
 
 log "Fetching from origin..."
