@@ -3,7 +3,8 @@
   "permission": {
     "edit": {
       "*": "allow",
-      "~/.config/opencode/**": "ask"
+      "~/.config/opencode/**": "ask",
+      "AGENTS.md": "ask"
     }
   }
 }
