@@ -1,6 +1,17 @@
 #!/bin/bash
 set -euo pipefail
 
+RED='\033[91m'
+GREEN='\033[92m'
+YELLOW='\033[93m'
+GREY='\033[90m'
+RESET='\033[0m'
+
+log()   { printf "${GREY}%s${RESET}\n" "$1"; }
+ok()    { printf "${GREEN}%s${RESET}\n" "$1"; }
+warn()  { printf "${YELLOW}%s${RESET}\n" "$1" >&2; }
+err()   { printf "${RED}%s${RESET}\n" "$1" >&2; }
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Re-exec under a modern bash if the current one is too old
@@ -18,16 +29,18 @@ declare -A SYMLINKS=(
     ["$HOME/.zshrc"]="files/home/.zshrc"
 )
 
+log "Fetching from origin..."
 git fetch origin
 
 if git diff --quiet && git diff --cached --quiet; then
     if git merge-base --is-ancestor HEAD origin/main; then
         git merge --ff-only origin/main
+        ok "Fast-forwarded to latest origin/main"
     else
-        echo "warning: HEAD is not in main's history, skipping update" >&2
+        warn "HEAD is not in main's history, skipping update"
     fi
 else
-    echo "warning: working tree has uncommitted changes, skipping update" >&2
+    warn "Working tree has uncommitted changes, skipping update"
 fi
 
 for dest in "${!SYMLINKS[@]}"; do
@@ -35,14 +48,25 @@ for dest in "${!SYMLINKS[@]}"; do
     if [[ -e "$dest" || -L "$dest" ]]; then
         if [[ -L "$dest" ]]; then
             link_target="$(readlink "$dest")"
+            if [[ "$link_target" == "$cwd/${SYMLINKS[$dest]}" ]]; then
+                log "Symlink already correct: $dest -> ${SYMLINKS[$dest]}"
+                continue
+            fi
             case "$link_target" in
-                "$cwd"/*) rm "$dest" ;;
-                *) echo "error: $dest is a symlink but does not point within this repo: $link_target" >&2; exit 1 ;;
+                "$cwd"/*)
+                    rm "$dest"
+                    ok "Replaced existing symlink: $dest"
+                    ;;
+                *)
+                    err "error: $dest is a symlink but does not point within this repo: $link_target"
+                    exit 1
+                    ;;
             esac
         else
-            echo "error: $dest already exists and is not a symlink." >&2
+            err "error: $dest already exists and is not a symlink."
             exit 1
         fi
     fi
     ln -s "$cwd/${SYMLINKS[$dest]}" "$dest"
+    ok "Created symlink: $dest -> ${SYMLINKS[$dest]}"
 done
