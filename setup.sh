@@ -18,7 +18,17 @@ declare -A SYMLINKS=(
     ["$HOME/.zshrc"]="files/home/.zshrc"
 )
 
-git pull origin main
+git fetch origin
+
+if git diff --quiet && git diff --cached --quiet; then
+    if git merge-base --is-ancestor HEAD origin/main; then
+        git merge --ff-only origin/main
+    else
+        echo "warning: HEAD is not in main's history, skipping update" >&2
+    fi
+else
+    echo "warning: working tree has uncommitted changes, skipping update" >&2
+fi
 
 for dest in "${!SYMLINKS[@]}"; do
     mkdir -p "$(dirname "$dest")"
