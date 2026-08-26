@@ -21,3 +21,8 @@ set hlsearch
 " Yank copies to the system clipboard
 set clipboard=unnamed
 
+" Key bindings (matching zshrc)
+map <M-Right> w
+map <M-Left> b
+imap <Del> <C-W>
+
