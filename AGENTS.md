@@ -29,3 +29,12 @@ Personal dotfiles repository. Shell configs and opencode configuration are versi
 ## Symlink targets
 
 The table in `setup.sh` is the source-of-truth.
+
+## Adding a new opencode skill
+
+1. Create `files/home/.config/opencode/skills/<name>/SKILL.md` with `name` and `description` frontmatter.
+2. Add a `["$HOME/.config/opencode/skills/<name>/SKILL.md"]="files/home/.config/opencode/skills/<name>/SKILL.md"` entry to the symlink table in `setup.sh`.
+3. Run `./setup.sh` so the symlink is created.
+4. Tell the user to quit and restart opencode for the skill to load.
+
+Do not create symlinks or config files inside `~/.config/opencode/` directly; the repo is the source of truth.

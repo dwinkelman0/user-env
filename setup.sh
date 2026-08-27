@@ -30,6 +30,7 @@ declare -A SYMLINKS=(
     ["$HOME/.config/opencode/AGENTS.md"]="files/home/.config/opencode/AGENTS.md"
     ["$HOME/.config/opencode/opencode.json"]="files/home/.config/opencode/opencode.json"
     ["$HOME/.config/opencode/skills/bash/SKILL.md"]="files/home/.config/opencode/skills/bash/SKILL.md"
+    ["$HOME/.config/opencode/skills/coding/SKILL.md"]="files/home/.config/opencode/skills/coding/SKILL.md"
 )
 
 log "Fetching from origin..."
