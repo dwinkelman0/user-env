@@ -7,6 +7,7 @@ Personal dotfiles repository. Shell configs and opencode configuration are versi
 - `files/home/` — dotfiles that get symlinked into `$HOME`
   - `.vimrc`, `.tmux.conf`, `.zshrc` — shell/editor configs
   - `.config/opencode/` — global opencode config, skills, and AGENTS.md (all symlinked)
+  - `.local/bin/` — user-facing CLI tools symlinked into `$HOME/.local/bin` (e.g. `opencode-cost`)
 - `src/` — utility scripts (e.g. `find-bash.sh`)
 - `setup.sh` — main entry point; fetches latest, creates symlinks
 

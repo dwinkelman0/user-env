@@ -1,0 +1,29 @@
+{
+  "presets": {
+    "zen": {
+"fast": {
+      "model": "opencode/gpt-5-nano",
+      "costRatio": 1
+    },
+    "medium": {
+      "model": "opencode/qwen3.5-plus",
+      "costRatio": 3
+    },
+    "heavy": {
+      "model": "opencode/qwen3.6-plus",
+      "costRatio": 8
+    }
+    }
+  },
+  "modelGenerations": {
+    "strong": [
+      "claude-fable-5",
+      "claude-mythos-5",
+      "opus-4-8",
+      "claude-opus-5",
+      "qwen3.7-plus"
+    ]
+  },
+  "activePreset": "zen",
+  "activeMode": "normal"
+}
