@@ -60,6 +60,27 @@ else
     warn "Working tree has uncommitted changes, skipping update"
 fi
 
+# Ensure ocx is installed (no Homebrew formula exists, so use the official installer)
+if ! command -v ocx >/dev/null 2>&1; then
+    warn "ocx not found, installing..."
+    curl -fsSL https://ocx.kdco.dev/install.sh | sh
+    PATH="$HOME/.local/bin:$HOME/bin:/usr/local/bin:/opt/homebrew/bin:$PATH"
+    ocx init --global
+    ok "Installed ocx"
+fi
+
+# Ensure the kdco/worktree plugin is installed (no upgrade logic yet)
+ocx_global="$HOME/.config/opencode"
+if [[ -n "${XDG_CONFIG_HOME:-}" ]]; then
+    ocx_global="$XDG_CONFIG_HOME/opencode"
+fi
+if [[ -f "$ocx_global/.ocx/receipt.jsonc" ]] && grep -q 'kdco/worktree' "$ocx_global/.ocx/receipt.jsonc"; then
+    ok "ocx plugin kdco/worktree already installed"
+else
+    ocx add -g kdco/worktree --from https://registry.kdco.dev
+    ok "Installed ocx plugin kdco/worktree"
+fi
+
 failed=0
 for dest in "${!SYMLINKS[@]}"; do
     mkdir -p "$(dirname "$dest")"
