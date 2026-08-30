@@ -17,6 +17,30 @@
       "*": "allow",
       "/tmp/**": "allow"
     },
+    "bash": {
+      "*": "allow",
+      "git commit*": "deny",
+      "git push*": "deny",
+      "git pull*": "deny",
+      "git revert*": "deny",
+      "git reset*": "deny",
+      "git rebase*": "deny",
+      "git merge*": "deny",
+      "git cherry-pick*": "deny",
+      "git checkout*": "deny",
+      "git switch*": "deny",
+      "git restore*": "deny",
+      "git clean*": "deny",
+      "git rm*": "deny",
+      "git mv*": "deny",
+      "git am*": "deny",
+      "git apply*": "deny",
+      "git tag*": "deny",
+      "git stash*": "deny",
+      "git branch -d*": "deny",
+      "git branch -D*": "deny",
+      "git branch -m*": "deny"
+    },
     "external_directory": {
       "*": "ask",
       "/tmp/**": "allow"
