@@ -31,6 +31,7 @@ declare -A SYMLINKS=(
     ["$HOME/.config/opencode/opencode.json"]="files/home/.config/opencode/opencode.json"
     ["$HOME/.config/opencode/skills/bash/SKILL.md"]="files/home/.config/opencode/skills/bash/SKILL.md"
     ["$HOME/.config/opencode/skills/coding/SKILL.md"]="files/home/.config/opencode/skills/coding/SKILL.md"
+    ["$HOME/.config/opencode/skills/rust/SKILL.md"]="files/home/.config/opencode/skills/rust/SKILL.md"
     ["$HOME/.config/opencode/opencode-model-router.overrides.jsonc"]="files/home/.config/opencode/opencode-model-router.overrides.jsonc"
     ["$HOME/.local/bin/opencode-cost"]="files/home/.local/bin/opencode-cost"
 )
