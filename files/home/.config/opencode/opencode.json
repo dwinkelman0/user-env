@@ -6,6 +6,7 @@
       { "type": "npm", "package": "opencode-model-router" }
     ]
   ],
+  "lsp": true,
   "permission": {
     "edit": {
       "*": "allow",
