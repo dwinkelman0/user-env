@@ -23,18 +23,63 @@ fi
 cd "$SCRIPT_DIR"
 cwd="$(pwd)"
 
-declare -A SYMLINKS=(
+declare -A HOME_SYMLINKS=(
     ["$HOME/.vimrc"]="files/home/.vimrc"
     ["$HOME/.tmux.conf"]="files/home/.tmux.conf"
     ["$HOME/.zshrc"]="files/home/.zshrc"
+)
+
+declare -A OPENCODE_SYMLINKS=(
     ["$HOME/.config/opencode/AGENTS.md"]="files/home/.config/opencode/AGENTS.md"
     ["$HOME/.config/opencode/opencode.json"]="files/home/.config/opencode/opencode.json"
     ["$HOME/.config/opencode/skills/bash/SKILL.md"]="files/home/.config/opencode/skills/bash/SKILL.md"
     ["$HOME/.config/opencode/skills/coding/SKILL.md"]="files/home/.config/opencode/skills/coding/SKILL.md"
     ["$HOME/.config/opencode/skills/rust/SKILL.md"]="files/home/.config/opencode/skills/rust/SKILL.md"
     ["$HOME/.config/opencode/opencode-model-router.overrides.jsonc"]="files/home/.config/opencode/opencode-model-router.overrides.jsonc"
+)
+
+declare -A LOCAL_BIN_SYMLINKS=(
     ["$HOME/.local/bin/opencode-cost"]="files/home/.local/bin/opencode-cost"
 )
+
+# Install symlinks defined in a table (a path map of dest -> repo-relative target).
+# Fails the run if anything cannot be resolved, but processes the whole table.
+install_symlinks() {
+    local -n table="$1"
+    local failed=0
+    local dest target link_target
+    for dest in "${!table[@]}"; do
+        target="${table[$dest]}"
+        mkdir -p "$(dirname "$dest")"
+        if [[ -e "$dest" || -L "$dest" ]]; then
+            if [[ -L "$dest" ]]; then
+                link_target="$(readlink "$dest")"
+                if [[ "$link_target" == "$cwd/$target" ]]; then
+                    log "Symlink already correct: $dest -> $target"
+                    continue
+                fi
+                case "$link_target" in
+                    "$cwd"/*)
+                        rm "$dest"
+                        ok "Replaced existing symlink: $dest"
+                        ;;
+                    *)
+                        err "error: $dest is a symlink but does not point within this repo: $link_target"
+                        failed=1
+                        continue
+                        ;;
+                esac
+            else
+                err "error: $dest already exists and is not a symlink."
+                failed=1
+                continue
+            fi
+        fi
+        ln -s "$cwd/$target" "$dest"
+        ok "Created symlink: $dest -> $target"
+    done
+    return "$failed"
+}
 
 log "Fetching from origin..."
 git fetch origin
@@ -83,35 +128,11 @@ else
 fi
 
 failed=0
-for dest in "${!SYMLINKS[@]}"; do
-    mkdir -p "$(dirname "$dest")"
-    if [[ -e "$dest" || -L "$dest" ]]; then
-        if [[ -L "$dest" ]]; then
-            link_target="$(readlink "$dest")"
-            if [[ "$link_target" == "$cwd/${SYMLINKS[$dest]}" ]]; then
-                log "Symlink already correct: $dest -> ${SYMLINKS[$dest]}"
-                continue
-            fi
-            case "$link_target" in
-                "$cwd"/*)
-                    rm "$dest"
-                    ok "Replaced existing symlink: $dest"
-                    ;;
-                *)
-                    err "error: $dest is a symlink but does not point within this repo: $link_target"
-                    failed=1
-                    continue
-                    ;;
-            esac
-        else
-            err "error: $dest already exists and is not a symlink."
-            failed=1
-            continue
-        fi
-    fi
-    ln -s "$cwd/${SYMLINKS[$dest]}" "$dest"
-    ok "Created symlink: $dest -> ${SYMLINKS[$dest]}"
-done
+
+install_symlinks HOME_SYMLINKS || failed=1
+install_symlinks OPENCODE_SYMLINKS || failed=1
+install_symlinks LOCAL_BIN_SYMLINKS || failed=1
+
 if [[ $failed -eq 1 ]]; then
     err "Some symlinks failed to create"
     exit 1

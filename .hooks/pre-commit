@@ -1,0 +1,49 @@
+#!/bin/bash
+set -euo pipefail
+
+# Auto-format staged JSON files (jq canonical output) before commit.
+# If any file needed reformatting, re-stage it and abort the commit so the
+# author can review the formatter's changes before committing.
+
+GREY='\033[90m'
+GREEN='\033[92m'
+YELLOW='\033[93m'
+RED='\033[91m'
+RESET='\033[0m'
+
+log()   { printf "${GREY}%s${RESET}\n" "$1"; }
+ok()    { printf "${GREEN}%s${RESET}\n" "$1"; }
+warn()  { printf "${YELLOW}%s${RESET}\n" "$1" >&2; }
+err()   { printf "${RED}%s${RESET}\n" "$1" >&2; }
+
+changed=0
+
+for file in $(git diff --cached --name-only --diff-filter=ACM -- '*.json'); do
+    [[ -f "$file" ]] || continue
+
+    before="$(cat "$file")"
+    if jq --compact-output '.' "$file" >/dev/null 2>&1; then
+        # canonicalize (2-space pretty-print matching jq default)
+        jq '.' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
+    else
+        err "error: $file is not valid JSON; skipping autoformat"
+        continue
+    fi
+
+    if [[ "$(cat "$file")" != "$before" ]]; then
+        git add "$file"
+        changed=1
+        warn "reformatted: $file"
+    else
+        log "already formatted: $file"
+    fi
+done
+
+if [[ $changed -eq 1 ]]; then
+    err ""
+    err "JSON files were autoformatted and re-staged."
+    err "Review the changes and commit again."
+    exit 1
+fi
+
+ok "JSON formatting up to date"
