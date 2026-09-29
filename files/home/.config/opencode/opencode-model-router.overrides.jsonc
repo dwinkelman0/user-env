@@ -1,18 +1,18 @@
 {
   "presets": {
-    "zen": {
-"fast": {
-      "model": "opencode/gpt-5-nano",
-      "costRatio": 1
-    },
-    "medium": {
-      "model": "opencode/qwen3.5-plus",
-      "costRatio": 3
-    },
-    "heavy": {
-      "model": "opencode/qwen3.6-plus",
-      "costRatio": 8
-    }
+    "go": {
+      "fast": {
+        "model": "opencode-go/qwen3.8-flash",
+        "costRatio": 1
+      },
+      "medium": {
+        "model": "opencode-go/qwen3.7-plus",
+        "costRatio": 3
+      },
+      "heavy": {
+        "model": "opencode-go/qwen3.8-max",
+        "costRatio": 8
+      }
     }
   },
   "modelGenerations": {
@@ -21,9 +21,13 @@
       "claude-mythos-5",
       "opus-4-8",
       "claude-opus-5",
-      "qwen3.7-plus"
+      "qwen3.7-plus",
+      "qwen3.7-max",
+      "qwen3.8",
+      "kimi-k3",
+      "glm-5.3"
     ]
   },
-  "activePreset": "zen",
+  "activePreset": "go",
   "activeMode": "normal"
 }
