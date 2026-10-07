@@ -42,6 +42,13 @@ declare -A LOCAL_BIN_SYMLINKS=(
     ["$HOME/.local/bin/opencode-cost"]="files/home/.local/bin/opencode-cost"
 )
 
+# VS Code user keybindings. The repo copy is strict JSON (no comments).
+# It binds Ctrl+= to workbench.action.navigateForward, the opposite of
+# Ctrl+- (navigateBack).
+declare -A VSCODE_SYMLINKS=(
+    ["$HOME/Library/Application Support/Code/User/keybindings.json"]="files/home/.config/vscode/keybindings.json"
+)
+
 # Install symlinks defined in a table (a path map of dest -> repo-relative target).
 # Fails the run if anything cannot be resolved, but processes the whole table.
 install_symlinks() {
@@ -132,6 +139,7 @@ failed=0
 install_symlinks HOME_SYMLINKS || failed=1
 install_symlinks OPENCODE_SYMLINKS || failed=1
 install_symlinks LOCAL_BIN_SYMLINKS || failed=1
+install_symlinks VSCODE_SYMLINKS || failed=1
 
 if [[ $failed -eq 1 ]]; then
     err "Some symlinks failed to create"
