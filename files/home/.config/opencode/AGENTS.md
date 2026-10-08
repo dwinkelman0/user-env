@@ -20,7 +20,6 @@ Sentences within a paragraph may be placed on consecutive lines.
 ## Subagent usage
 
 The guiding principle is cost-conscious delegation: use low-cost tokens where quality matters less, and offload to subagents when the main risk is polluting the parent's context window.
-
-- Reuse subagent instances when their contexts overlap, by resuming a session with its `task_id` instead of spawning a fresh one.
-- Prefer lightweight or medium subagents for repetitive tasks (e.g. code refactors), inductive tasks (e.g. writing unit tests), or mechanical tasks (e.g. fixing compiler errors, tracing code).
-- Prefer heavy subagents for research and other information-gathering tasks that distill a large amount of information into a far more compact useful context, to save context window space.
+Default to reusing an existing subagent whose context already aligns with the task, by resuming its session with its `task_id`, rather than spawning a fresh one.
+Create a new subagent only for a genuinely new task that demands substantial new context, or when you need parallelism and all suitably-aligned agents are already busy.
+Match tier to task: fast for read-only lookup, medium for implementation, heavy for architecture and deep debugging.
