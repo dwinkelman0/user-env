@@ -13,13 +13,9 @@ Personal dotfiles repository. Shell configs and opencode configuration are versi
 
 ### opencode plugins
 
-opencode plugins are installed by two different mechanisms, and it is important to know which one owns a given plugin:
+Plugins are declared in `files/home/.config/opencode/opencode.json` under the `"plugins"` key, using opencode's native package mechanism (e.g. `opencode-model-router`, unpinned). The repo is the source-of-truth via the symlink created by `setup.sh`; edit `opencode.json` to add, remove, or pin plugins.
 
-1. **Declared in `opencode.json`** — Plugins under the `"plugin"` key (e.g. `opencode-model-router`, installed from npm) are configured in `files/home/.config/opencode/opencode.json`, which is symlinked from this repo. The repo is the source-of-truth for these; edit `opencode.json` to add/remove them.
-
-2. **Installed imperatively via `ocx`** — Plugins installed with `ocx add` (e.g. `kdco/worktree` from `https://registry.kdco.dev`) land in `~/.config/opencode/plugins/` and are **not** tracked as source files in this repo. `setup.sh` is the source-of-truth for which of these are installed; it re-installs them on each run.
-
-The `~/.config/opencode/plugins/` directory is owned by `ocx` and is intentionally not symlinked from the repo. Do not create symlinks, config, or copies of plugin source files inside `~/.config/opencode/plugins/`; let `opencode.json` and `setup.sh` own plugin installation.
+The older `ocx` installer and the `kdco/worktree` plugin have been retired — `kdco/worktree` was V1-only and has no V2 port. The `~/.config/opencode/plugins/` directory may still contain legacy unmanaged files from before the migration; do not add new files there. Let `opencode.json` own plugin installation.
 
 ## Running
 

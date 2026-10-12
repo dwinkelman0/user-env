@@ -36,6 +36,7 @@ declare -A OPENCODE_SYMLINKS=(
     ["$HOME/.config/opencode/skills/coding/SKILL.md"]="files/home/.config/opencode/skills/coding/SKILL.md"
     ["$HOME/.config/opencode/skills/rust/SKILL.md"]="files/home/.config/opencode/skills/rust/SKILL.md"
     ["$HOME/.config/opencode/opencode-model-router.overrides.jsonc"]="files/home/.config/opencode/opencode-model-router.overrides.jsonc"
+    ["$HOME/.config/opencode/cli.json"]="files/home/.config/opencode/cli.json"
 )
 
 declare -A LOCAL_BIN_SYMLINKS=(
@@ -113,26 +114,7 @@ else
     warn "Working tree has uncommitted changes, skipping update"
 fi
 
-# Ensure ocx is installed (no Homebrew formula exists, so use the official installer)
-if ! command -v ocx >/dev/null 2>&1; then
-    warn "ocx not found, installing..."
-    curl -fsSL https://ocx.kdco.dev/install.sh | sh
-    PATH="$HOME/.local/bin:$HOME/bin:/usr/local/bin:/opt/homebrew/bin:$PATH"
-    ocx init --global
-    ok "Installed ocx"
-fi
-
-# Ensure the kdco/worktree plugin is installed (no upgrade logic yet)
-ocx_global="$HOME/.config/opencode"
-if [[ -n "${XDG_CONFIG_HOME:-}" ]]; then
-    ocx_global="$XDG_CONFIG_HOME/opencode"
-fi
-if [[ -f "$ocx_global/.ocx/receipt.jsonc" ]] && grep -q 'kdco/worktree' "$ocx_global/.ocx/receipt.jsonc"; then
-    ok "ocx plugin kdco/worktree already installed"
-else
-    ocx add -g kdco/worktree --from https://registry.kdco.dev
-    ok "Installed ocx plugin kdco/worktree"
-fi
+# ocx/worktree removed - V2 uses native plugins/worktree
 
 failed=0
 

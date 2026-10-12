@@ -6,11 +6,25 @@
         "costRatio": 1
       },
       "medium": {
-        "model": "opencode-go/qwen3.7-plus",
+        "model": "opencode-go/kimi-k2.7-code",
         "costRatio": 3
       },
       "heavy": {
         "model": "opencode-go/qwen3.8-max",
+        "costRatio": 8
+      }
+    },
+    "alibaba": {
+      "fast": {
+        "model": "alibaba-token-plan/qwen3.8-flash",
+        "costRatio": 1
+      },
+      "medium": {
+        "model": "alibaba-token-plan/qwen3.7-plus",
+        "costRatio": 3
+      },
+      "heavy": {
+        "model": "alibaba-token-plan/qwen3.8-max",
         "costRatio": 8
       }
     }
@@ -27,6 +41,11 @@
       "kimi-k3",
       "glm-5.3"
     ]
+  },
+  "fallback": {
+    "global": {
+      "go": ["alibaba"]
+    }
   },
   "activePreset": "go",
   "activeMode": "normal"
