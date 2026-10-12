@@ -41,6 +41,7 @@ declare -A OPENCODE_SYMLINKS=(
 
 declare -A LOCAL_BIN_SYMLINKS=(
     ["$HOME/.local/bin/opencode-cost"]="files/home/.local/bin/opencode-cost"
+    ["$HOME/.local/bin/tmux-colors"]="files/home/.local/bin/tmux-colors"
 )
 
 # VS Code user keybindings. The repo copy is strict JSON (no comments).
