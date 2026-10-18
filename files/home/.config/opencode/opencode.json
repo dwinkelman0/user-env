@@ -145,5 +145,21 @@
       "resource": "/tmp/*",
       "effect": "allow"
     }
-  ]
+  ],
+  "mcp": {
+    "servers": {
+      "gitea": {
+        "type": "local",
+        "command": [
+          "gitea-mcp",
+          "-t",
+          "stdio",
+          "--host",
+          "http://localhost:3001",
+          "--token",
+          "{env:GITEA_TOKEN}"
+        ]
+      }
+    }
+  }
 }
