@@ -8,3 +8,4 @@ bindkey "^[[1;3D" backward-word
 # TODO: ^? deletes whole word on some systems
 #bindkey "^?" backward-kill-word
 export PATH="$HOME/.local/bin:$PATH"
+export PATH=/opt/homebrew/opt/graalvm/bin:$PATH
