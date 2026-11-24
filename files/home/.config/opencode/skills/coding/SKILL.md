@@ -27,6 +27,19 @@ Functions that return a boolean should be named with `is_…`, `has_…`, `can_�
 
 - `is_valid`, `has_children`, `can_edit`, `should_retry`
 
+## Prefer if-else when the first branch returns
+
+When the `if` branch returns, use `if-else` for the alternative instead of falling through to code after the `if`.
+It makes the two mutually exclusive paths explicit.
+
+OK:
+
+- `if valid: return value / else: return default`
+
+Not OK — fallthrough hides the second path:
+
+- `if valid: return value / return default`
+
 ## Test coverage
 
 Be stingy with test coverage. Skip tests for simple code with a high probability of working; a passing test there documents nothing you couldn't verify by reading the code. Effort scales with a codebase's maturity:

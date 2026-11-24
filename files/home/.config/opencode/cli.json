@@ -12,5 +12,8 @@
   "keybinds": {
     "agent.cycle": "tab",
     "agent.cycle.reverse": "shift+tab"
+  },
+  "terminal": {
+    "title": true
   }
 }
