@@ -35,6 +35,7 @@ declare -A OPENCODE_SYMLINKS=(
     ["$HOME/.config/opencode/skills/bash/SKILL.md"]="files/home/.config/opencode/skills/bash/SKILL.md"
     ["$HOME/.config/opencode/skills/coding/SKILL.md"]="files/home/.config/opencode/skills/coding/SKILL.md"
     ["$HOME/.config/opencode/skills/rework/SKILL.md"]="files/home/.config/opencode/skills/rework/SKILL.md"
+    ["$HOME/.config/opencode/skills/rebase/SKILL.md"]="files/home/.config/opencode/skills/rebase/SKILL.md"
     ["$HOME/.config/opencode/skills/rust/SKILL.md"]="files/home/.config/opencode/skills/rust/SKILL.md"
     ["$HOME/.config/opencode/skills/test-coverage/SKILL.md"]="files/home/.config/opencode/skills/test-coverage/SKILL.md"
     ["$HOME/.config/opencode/opencode-model-router.overrides.jsonc"]="files/home/.config/opencode/opencode-model-router.overrides.jsonc"
